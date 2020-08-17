@@ -1,4 +1,4 @@
-import { getCustomRepository, getRepository, Raw } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 
 import Category from '../models/Category';
 import Transaction from '../models/Transaction';
@@ -39,13 +39,7 @@ class CreateTransactionService {
 
     let savedCategory = await categoriesRepository.findOne({
       where: {
-        title: Raw(
-          alias =>
-            `LOWER(UNACCENT(${alias})) = '${category
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '')
-              .toLowerCase()}'`,
-        ),
+        title: category,
       },
     });
 
